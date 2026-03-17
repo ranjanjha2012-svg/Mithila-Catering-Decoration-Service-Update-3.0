@@ -29,7 +29,12 @@ import {
   Check,
   ShoppingCart,
   ArrowLeft,
-  QrCode
+  QrCode,
+  Leaf,
+  Egg,
+  Drumstick,
+  CreditCard,
+  Wallet
 } from 'lucide-react';
 import { GoogleGenAI } from "@google/genai";
 import { QRCodeSVG } from 'qrcode.react';
@@ -136,14 +141,12 @@ const serviceAreas = [
 const tiffinPricing = {
   'Veg': 2700,
   'Egg': 2900,
-  'Non-Veg': 3200
+  'Non-Veg': 3100
 };
 
 export default function App() {
   const [currentView, setCurrentView] = useState<'main' | 'tiffin'>('main');
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
   
   // AI Planner State
   const [aiInput, setAiInput] = useState("");
@@ -294,74 +297,25 @@ export default function App() {
           <a href="#services" onClick={() => setCurrentView('main')} className="hover:text-gold transition-colors">Services</a>
           <a href="#ai-planner" onClick={() => setCurrentView('main')} className="hover:text-gold transition-colors">AI Planner</a>
           <a href="#enquiry" onClick={() => setCurrentView('main')} className="hover:text-gold transition-colors">Enquiry</a>
-          
-          <div className="relative">
-            <button 
-              onClick={() => setIsMoreMenuOpen(!isMoreMenuOpen)}
-              className="hover:text-gold transition-colors flex items-center gap-1"
-            >
-              <MoreVertical className="w-5 h-5" />
-            </button>
-            <AnimatePresence>
-              {isMoreMenuOpen && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className="absolute right-0 mt-4 w-48 glass-card border border-gold/20 rounded-xl overflow-hidden shadow-2xl"
-                >
-                  <button 
-                    onClick={() => { setCurrentView('tiffin'); setIsMoreMenuOpen(false); }}
-                    className="w-full px-6 py-4 text-left text-sm hover:bg-gold/10 transition-colors flex items-center gap-2"
-                  >
-                    <ChefHat className="w-4 h-4 text-gold" />
-                    Tiffin Service
-                  </button>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
-
-        {/* Mobile Controls */}
-        <div className="flex md:hidden items-center gap-4">
           <button 
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="text-gold p-1"
+            onClick={() => setCurrentView('tiffin')}
+            className="hover:text-gold transition-colors flex items-center gap-2"
           >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            <ChefHat className="w-4 h-4 text-gold" />
+            Tiffin
           </button>
         </div>
 
-        {/* Mobile Menu Overlay */}
-        <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div 
-              initial={{ opacity: 0, x: '100%' }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: '100%' }}
-              className="fixed inset-0 z-40 bg-dark-bg flex flex-col items-center justify-center gap-8 md:hidden"
-            >
-              <a href="#home" onClick={() => { setIsMobileMenuOpen(false); setCurrentView('main'); }} className="text-2xl font-serif text-gold">Home</a>
-              <a href="#services" onClick={() => { setIsMobileMenuOpen(false); setCurrentView('main'); }} className="text-2xl font-serif text-gold">Services</a>
-              <a href="#ai-planner" onClick={() => { setIsMobileMenuOpen(false); setCurrentView('main'); }} className="text-2xl font-serif text-gold">AI Planner</a>
-              <a href="#enquiry" onClick={() => { setIsMobileMenuOpen(false); setCurrentView('main'); }} className="text-2xl font-serif text-gold">Enquiry</a>
-              <button 
-                onClick={() => { setIsMobileMenuOpen(false); setCurrentView('tiffin'); }}
-                className="text-2xl font-serif text-gold flex items-center gap-2"
-              >
-                <ChefHat className="w-6 h-6" />
-                Tiffin Service
-              </button>
-              <button 
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="mt-8 w-12 h-12 rounded-full border border-gold/30 flex items-center justify-center text-gold"
-              >
-                <X className="w-6 h-6" />
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Mobile Controls - Adjusted to show links directly or in a compact way */}
+        <div className="flex md:hidden items-center gap-2 text-[10px] uppercase tracking-tighter font-bold text-white/70 overflow-x-auto no-scrollbar max-w-[60%]">
+          <a href="#home" onClick={() => setCurrentView('main')} className="px-2 py-1 hover:text-gold whitespace-nowrap">Home</a>
+          <a href="#services" onClick={() => setCurrentView('main')} className="px-2 py-1 hover:text-gold whitespace-nowrap">Services</a>
+          <a href="#ai-planner" onClick={() => setCurrentView('main')} className="px-2 py-1 hover:text-gold whitespace-nowrap">AI Planner</a>
+          <a href="#enquiry" onClick={() => setCurrentView('main')} className="px-2 py-1 hover:text-gold whitespace-nowrap">Enquiry</a>
+          <button onClick={() => setCurrentView('tiffin')} className="px-2 py-1 hover:text-gold whitespace-nowrap flex items-center gap-1">
+            <ChefHat className="w-3 h-3" /> Tiffin
+          </button>
+        </div>
       </nav>
 
       {currentView === 'main' ? (
@@ -372,80 +326,90 @@ export default function App() {
               <div className="absolute inset-0 bg-gradient-to-b from-dark-bg/50 via-dark-bg to-dark-bg" />
             </div>
             
-            <div className="relative z-10 px-4 md:px-6 max-w-7xl mx-auto w-full">
-              <div className="flex flex-row gap-4 md:gap-12 items-center">
-                <motion.div
-                  initial={{ opacity: 0, x: -30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8 }}
-                  className="flex-1"
-                >
-                  <div className="inline-flex items-center gap-2 md:gap-3 px-3 py-1.5 md:px-4 md:py-2 border border-gold/30 rounded-full bg-gold/5 shadow-[0_0_15px_rgba(212,175,55,0.2)] mb-4 md:mb-6">
-                    <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-red-500 rounded-full animate-blink shadow-[0_0_8px_#ef4444]" />
-                    <span className="text-gold uppercase tracking-[0.1em] md:tracking-[0.2em] text-[8px] md:text-xs font-bold whitespace-nowrap">Established Since 2021</span>
-                  </div>
-                  
-                  <h1 className="text-xl md:text-7xl font-serif font-bold mb-2 md:mb-4 leading-tight">
-                    Mithila Catering & <br />
-                    <span className="gold-gradient italic">Decoration Service</span>
-                  </h1>
-                  <h2 className="text-sm md:text-3xl font-serif text-gold-light mb-3 md:mb-4">
-                    Crafting Unforgettable Moments Across India
-                  </h2>
-                  <p className="text-white/70 text-xs md:text-xl mb-6 md:mb-8 font-light leading-relaxed hidden sm:block">
-                    From grand weddings to intimate gatherings, Mithila Catering & Decoration Service brings professional event management to your doorstep with high-quality service and authentic flavors.
-                  </p>
-                  <div className="flex flex-row gap-3 md:gap-4">
-                    <a href="#ai-planner" className="px-4 py-2 md:px-8 md:py-4 gold-bg text-black font-bold rounded-full text-[10px] md:text-lg hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all flex items-center justify-center gap-1 md:gap-2">
-                      <Sparkles className="w-3 h-3 md:w-5 md:h-5" />
-                      AI Plan
-                    </a>
-                    <a href="#enquiry" className="px-4 py-2 md:px-8 md:py-4 border border-gold/30 text-gold font-bold rounded-full text-[10px] md:text-lg hover:bg-gold/10 transition-all flex items-center justify-center gap-1 md:gap-2">
-                      <Calendar className="w-3 h-3 md:w-5 md:h-5" />
-                      Enquiry
-                    </a>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                  className="relative flex-1"
-                >
-                  <div className="absolute -inset-2 md:-inset-4 gold-bg opacity-20 blur-2xl md:blur-3xl rounded-full" />
-                  <img 
-                    src="https://i.ibb.co/XZZwcN2h/Whats-App-Image-2026-03-15-at-15-56-19-1.jpg" 
-                    alt="Mithila Catering Showcase" 
-                    className="relative w-full h-auto rounded-lg md:rounded-[2rem] shadow-2xl border border-gold/20 object-cover aspect-square md:aspect-auto"
-                    referrerPolicy="no-referrer"
-                  />
-                </motion.div>
-              </div>
+            <div className="relative z-10 px-4 md:px-6 max-w-7xl mx-auto w-full text-center">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                className="max-w-4xl mx-auto"
+              >
+                <div className="inline-flex items-center gap-3 px-6 py-3 border border-gold/30 rounded-full bg-gold/5 shadow-[0_0_20px_rgba(212,175,55,0.2)] mb-8">
+                  <div className="w-3 h-3 bg-red-500 rounded-full animate-blink shadow-[0_0_10px_#ef4444]" />
+                  <span className="text-gold uppercase tracking-[0.3em] text-sm md:text-lg font-bold whitespace-nowrap">Established Since 2021</span>
+                </div>
+                
+                <h1 className="text-5xl md:text-8xl font-serif font-bold mb-6 leading-tight">
+                  Mithila Catering & <br />
+                  <span className="gold-gradient italic">Decoration Service</span>
+                </h1>
+                <h2 className="text-2xl md:text-4xl font-serif text-gold-light mb-8">
+                  Crafting Unforgettable Moments Across India
+                </h2>
+                <p className="text-white/70 text-base md:text-2xl mb-12 font-light leading-relaxed max-w-3xl mx-auto">
+                  From grand weddings to intimate gatherings, Mithila Catering & Decoration Service brings professional event management to your doorstep with high-quality service and authentic flavors.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                  <a href="#ai-planner" className="w-full sm:w-auto px-12 py-6 gold-bg text-black font-bold rounded-full text-xl md:text-2xl hover:shadow-[0_0_30px_rgba(212,175,55,0.5)] transition-all flex items-center justify-center gap-3">
+                    <Sparkles className="w-6 h-6 md:w-8 md:h-8" />
+                    AI Plan
+                  </a>
+                  <a href="#enquiry" className="w-full sm:w-auto px-12 py-6 border-2 border-gold text-gold font-bold rounded-full text-xl md:text-2xl hover:bg-gold/10 transition-all flex items-center justify-center gap-3">
+                    <Calendar className="w-6 h-6 md:w-8 md:h-8" />
+                    Enquiry
+                  </a>
+                </div>
+              </motion.div>
             </div>
           </section>
 
       {/* Stats Section */}
       <section className="py-20 px-6 border-y border-gold/10 bg-white/[0.01]">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
-            {stats.map((stat, idx) => (
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-serif font-bold gold-gradient uppercase tracking-widest">We Served</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            {[
+              { label: "Events Done", value: 600, suffix: "+" },
+              { label: "Customers", value: 4000, suffix: "+" },
+              { label: "Support", value: "24/7", isStatic: true }
+            ].map((stat, idx) => (
               <motion.div 
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
                 viewport={{ once: true }}
-                className="text-center"
+                className="text-center p-6 glass-card rounded-2xl border-gold/10"
               >
-                <p className="text-3xl md:text-4xl font-serif font-bold text-gold mb-1">
+                <p className="text-4xl md:text-6xl font-serif font-bold text-gold mb-2">
                   {typeof stat.value === 'number' ? (
                     <Counter value={stat.value} suffix={stat.suffix} />
                   ) : (
                     stat.value
                   )}
                 </p>
-                <p className="text-white/40 text-xs uppercase tracking-widest">{stat.label}</p>
+                <p className="text-white/60 text-sm uppercase tracking-widest font-bold">{stat.label}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { label: "Event Decoration", value: "Premium" },
+              { label: "Catering", value: "Premium" },
+              { label: "Mithila Flavors", value: "Authentic" }
+            ].map((cat, idx) => (
+              <motion.div 
+                key={idx}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ delay: idx * 0.1 }}
+                viewport={{ once: true }}
+                className="text-center p-8 border border-gold/20 rounded-3xl bg-gold/5"
+              >
+                <p className="text-gold text-xs uppercase tracking-[0.4em] font-bold mb-3">{cat.value}</p>
+                <h3 className="text-2xl md:text-3xl font-serif font-bold text-white">{cat.label}</h3>
               </motion.div>
             ))}
           </div>
@@ -455,21 +419,33 @@ export default function App() {
       {/* Services Section */}
       <section id="services" className="py-24 px-6 max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-serif font-bold mb-4">Our Premium <span className="gold-gradient">Services</span></h2>
+          <div className="flex items-center justify-center gap-4 mb-6">
+            <img 
+              src="https://i.ibb.co/CKgjw4rx/file-000000003bec71faa9b37e16b055cb49.png" 
+              alt="Mithila Logo" 
+              className="h-12 w-12 md:h-16 md:w-16 object-contain rounded-full border border-gold/30"
+              referrerPolicy="no-referrer"
+            />
+            <h2 className="text-4xl md:text-6xl font-serif font-bold">Our Premium <span className="gold-gradient">Services</span></h2>
+          </div>
           <div className="w-24 h-1 gold-bg mx-auto rounded-full" />
           <p className="mt-6 text-white/70 max-w-2xl mx-auto text-lg">
             We offer a wide range of event management and tent services across India, ensuring every detail is handled with precision. Authentic Mithila flavors combined with world-class decoration.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-3 gap-3 md:gap-8">
           {services.map((service, idx) => (
             <motion.div
               key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: (idx % 3) * 0.1 }}
+              viewport={{ once: true }}
               whileHover={{ y: -10 }}
-              className="glass-card overflow-hidden rounded-3xl group hover:border-gold/30 transition-all"
+              className="glass-card overflow-hidden rounded-xl md:rounded-3xl group hover:border-gold/30 transition-all"
             >
-              <div className="h-48 overflow-hidden relative">
+              <div className="h-24 md:h-48 overflow-hidden relative">
                 <img 
                   src={service.image} 
                   alt={service.name} 
@@ -477,13 +453,13 @@ export default function App() {
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-dark-bg to-transparent opacity-60" />
-                <div className="absolute bottom-4 left-6 w-12 h-12 gold-bg rounded-xl flex items-center justify-center text-black">
-                  {service.icon}
+                <div className="absolute bottom-2 md:bottom-4 left-2 md:left-6 w-8 h-8 md:w-12 md:h-12 gold-bg rounded-lg md:rounded-xl flex items-center justify-center text-black">
+                  {React.cloneElement(service.icon as React.ReactElement, { className: "w-4 h-4 md:w-6 md:h-6" })}
                 </div>
               </div>
-              <div className="p-8">
-                <h3 className="text-2xl font-serif font-bold mb-3 text-gold-light">{service.name}</h3>
-                <p className="text-white/50 leading-relaxed">{service.desc}</p>
+              <div className="p-3 md:p-8">
+                <h3 className="text-[10px] md:text-2xl font-serif font-bold mb-1 md:mb-3 text-gold-light leading-tight">{service.name}</h3>
+                <p className="hidden md:block text-white/50 leading-relaxed text-sm">{service.desc}</p>
               </div>
             </motion.div>
           ))}
@@ -499,11 +475,17 @@ export default function App() {
             </div>
             
             <div className="relative z-10">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 gold-bg rounded-lg flex items-center justify-center text-black">
-                  <Sparkles className="w-6 h-6" />
+              <div className="flex flex-col items-center gap-6 mb-10">
+                <img 
+                  src="https://i.ibb.co/CKgjw4rx/file-000000003bec71faa9b37e16b055cb49.png" 
+                  alt="Mithila AI Planner Logo" 
+                  className="h-24 w-24 md:h-32 md:w-32 object-contain rounded-full border-4 border-gold shadow-[0_0_30px_rgba(212,175,55,0.4)]"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="text-center">
+                  <h2 className="text-4xl md:text-6xl font-serif font-bold gold-gradient">Mithila AI Planner</h2>
+                  <p className="text-white/40 uppercase tracking-[0.4em] text-xs mt-2">Your Personal Event Architect</p>
                 </div>
-                <h2 className="text-3xl font-serif font-bold">Mithila AI <span className="gold-gradient">Planner</span></h2>
               </div>
               
               <p className="text-white/60 mb-8 text-lg">
@@ -814,23 +796,44 @@ export default function App() {
       )}
 
       {/* Footer */}
-      <footer className="py-12 px-6 border-t border-gold/10">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="text-white/30 text-sm tracking-widest uppercase text-center md:text-left">
-            © 2026 Mithila Catering & Decoration Service. All Rights Reserved.
-          </div>
-          
-          <div className="flex flex-col items-center gap-4">
-            <div className="text-3xl font-serif font-bold gold-gradient">Mithila Catering & Decoration Service</div>
-            <div className="flex gap-6 text-white/40">
-              <a href="#" className="hover:text-gold transition-colors">Instagram</a>
-              <a href="#" className="hover:text-gold transition-colors">Facebook</a>
-              <a href="#" className="hover:text-gold transition-colors">Twitter</a>
+      <footer className="py-16 px-6 border-t border-gold/10 bg-black/40">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-12">
+            <div className="text-white/50 text-xs md:text-sm tracking-widest uppercase text-center md:text-left order-2 md:order-1">
+              © 2026 Mithila Catering & Decoration Service. All Rights Reserved.
+            </div>
+            
+            <div className="flex flex-col items-center gap-6 order-1 md:order-2">
+              <div className="text-2xl md:text-4xl font-serif font-bold gold-gradient text-center">Mithila Catering & Decoration Service</div>
+              <div className="flex gap-8 text-white/40">
+                <a href="#" className="hover:text-gold transition-colors flex items-center gap-2">
+                  <span className="text-xs uppercase tracking-widest">Instagram</span>
+                </a>
+                <a href="#" className="hover:text-gold transition-colors flex items-center gap-2">
+                  <span className="text-xs uppercase tracking-widest">Facebook</span>
+                </a>
+                <a href="#" className="hover:text-gold transition-colors flex items-center gap-2">
+                  <span className="text-xs uppercase tracking-widest">Twitter</span>
+                </a>
+              </div>
+            </div>
+
+            <div className="text-white/50 text-xs md:text-sm tracking-widest uppercase text-center md:text-right order-3">
+              Designed by <span className="text-gold font-bold">Walt Designs & Studio</span>
             </div>
           </div>
 
-          <div className="text-white/30 text-sm tracking-widest uppercase text-center md:text-right">
-            Designed by Walt Designs & Studio
+          <div className="flex flex-col items-center gap-4 pt-8 border-t border-white/5">
+            <img 
+              src="https://i.ibb.co/CKgjw4rx/file-000000003bec71faa9b37e16b055cb49.png" 
+              alt="Mithila Logo" 
+              className="h-20 w-20 object-contain rounded-full border-2 border-gold shadow-[0_0_20px_rgba(212,175,55,0.2)]"
+              referrerPolicy="no-referrer"
+            />
+            <div className="text-center">
+              <p className="text-gold font-serif font-bold tracking-[0.2em]">Mithila AI Planner</p>
+              <p className="text-white/20 text-[10px] uppercase tracking-[0.5em] mt-1">Smart Event Solutions</p>
+            </div>
           </div>
         </div>
       </footer>
@@ -853,23 +856,65 @@ function TiffinService({
   onUpiPayment,
   onWhatsAppShare
 }: any) {
+  const [step, setStep] = useState<'selection' | 'booking' | 'form' | 'payment'>('selection');
+  const [aiSummary, setAiSummary] = useState("");
+  const [isAiLoading, setIsAiLoading] = useState(false);
+  const [bookingFormData, setBookingFormData] = useState({
+    name: '',
+    phone: '',
+    address: '',
+    notes: ''
+  });
+
   const tiffinDetails = {
     'Veg': {
       price: 2700,
       menu: "4 Roti + Rice + Dal + Sabji + Salad + Sweet/Raita (Weekdays)",
-      notes: "On-time delivery. Sabji & Dal will change daily."
+      notes: "On-time delivery. Sabji & Dal will change daily.",
+      color: "from-green-600/40 to-green-900/60 border-green-500/50",
+      icon: <Leaf className="w-12 h-12 text-green-400" />,
+      tag: "Pure Vegetarian"
     },
     'Egg': {
       price: 2900,
       menu: "4 Roti + Rice + Dal + Egg Sabji + Salad + Sweet/Raita (Weekdays)",
-      notes: "On-time delivery. Sabji & Dal will change daily. Egg as sabji somedays."
+      notes: "On-time delivery. Sabji & Dal will change daily. Egg as sabji somedays.",
+      color: "from-yellow-600/40 to-yellow-900/60 border-yellow-500/50",
+      icon: <Egg className="w-12 h-12 text-yellow-400" />,
+      tag: "Eggitarian"
     },
     'Non-Veg': {
-      price: 3200,
+      price: 3100,
       menu: "4 Roti + Rice + Dal + Chicken/Mutton Sabji + Salad + Sweet/Raita (Weekdays)",
-      notes: "On-time delivery. Sabji & Dal will change daily. Non-veg served on specific days."
+      notes: "On-time delivery. Sabji & Dal will change daily. Non-veg served on specific days.",
+      color: "from-red-600/40 to-red-900/60 border-red-500/50",
+      icon: <Drumstick className="w-12 h-12 text-red-400" />,
+      tag: "Non-Vegetarian"
     }
   };
+
+  const generateAiSummary = async (type: string) => {
+    setIsAiLoading(true);
+    try {
+      const prompt = `Write a very short, appetizing 2-sentence summary for a "${type} Tiffin Service" by Mithila Catering. 
+      Mention freshness, authentic taste, and home-style cooking. Keep it under 40 words.`;
+      const response = await genAI.models.generateContent({
+        model: "gemini-3-flash-preview",
+        contents: prompt,
+      });
+      setAiSummary(response.text || "");
+    } catch (e) {
+      setAiSummary("Fresh, home-style meals prepared with authentic Mithila spices and delivered hot to your doorstep.");
+    } finally {
+      setIsAiLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (step === 'booking') {
+      generateAiSummary(tiffinType);
+    }
+  }, [step, tiffinType]);
 
   const toggleMeal = (meal: string) => {
     if (selectedMeals.includes(meal)) {
@@ -883,58 +928,135 @@ function TiffinService({
     }
   };
 
+  const handleCardBookNow = (type: 'Veg' | 'Egg' | 'Non-Veg') => {
+    setTiffinType(type);
+    setStep('booking');
+  };
+
+  const handleBookingFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    const formData = new FormData();
+    formData.append('name', bookingFormData.name);
+    formData.append('phone', bookingFormData.phone);
+    formData.append('address', bookingFormData.address);
+    formData.append('tiffin_type', tiffinType);
+    formData.append('meals', selectedMeals.join(', '));
+    formData.append('area', selectedLocation);
+    formData.append('total_amount', tiffinTotal.total.toString());
+    formData.append('notes', bookingFormData.notes);
+
+    try {
+      await fetch("https://formspree.io/f/mqeybnnv", {
+        method: "POST",
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+      setStep('payment');
+      onBook();
+    } catch (error) {
+      console.error("Booking form error:", error);
+      setStep('payment');
+      onBook();
+    }
+  };
+
   return (
-    <div className="pt-32 pb-20 px-4 md:px-6 max-w-4xl mx-auto min-h-screen">
+    <div className="pt-32 pb-20 px-4 md:px-6 max-w-6xl mx-auto min-h-screen">
+      <div className="fixed inset-0 bg-[#1a3a1a] -z-10" /> {/* Dark Grass Green Background */}
+      
       <motion.button 
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
-        onClick={onBack}
-        className="flex items-center gap-2 text-gold mb-8 hover:underline"
+        onClick={() => {
+          if (step === 'payment') {
+            setStep('form');
+            setShowPayment(false);
+          } else if (step === 'form') {
+            setStep('booking');
+          } else if (step === 'booking') {
+            setStep('selection');
+          } else {
+            onBack();
+          }
+        }}
+        className="flex items-center gap-2 text-gold mb-8 hover:underline bg-black/40 px-6 py-3 rounded-full border border-gold/20 shadow-lg"
       >
-        <ArrowLeft className="w-5 h-5" /> Back to Home
+        <ArrowLeft className="w-5 h-5" /> {step === 'selection' ? 'Back to Home' : 'Back'}
       </motion.button>
 
-      <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-6xl font-serif font-bold mb-4">Premium <span className="gold-gradient">Tiffin Service</span></h1>
-        <p className="text-white/60">Authentic home-style meals delivered to your doorstep.</p>
+      <div className="text-center mb-16">
+        <h1 className="text-5xl md:text-8xl font-serif font-bold mb-4">Premium <span className="gold-gradient italic">Tiffin Service</span></h1>
+        <p className="text-white/60 text-xl font-light">Authentic home-style meals delivered to your doorstep.</p>
       </div>
 
-      {!showPayment ? (
-        <div className="space-y-8">
-          {/* Tiffin Type Selection */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {(['Veg', 'Egg', 'Non-Veg'] as const).map((type) => (
-              <button 
-                key={type}
-                onClick={() => setTiffinType(type)}
-                className={`glass-card p-6 rounded-2xl border transition-all text-left relative overflow-hidden group ${tiffinType === type ? 'border-gold bg-gold/5' : 'border-white/10 hover:border-gold/30'}`}
-              >
-                <div className="relative z-10">
-                  <div className="flex justify-between items-start mb-4">
-                    <h3 className="text-xl font-bold text-gold">{type} Tiffin</h3>
-                    {tiffinType === type && <Check className="w-6 h-6 text-gold" />}
-                  </div>
-                  <p className="text-2xl font-serif font-bold mb-2">₹{tiffinPricing[type as keyof typeof tiffinPricing]}/-</p>
-                  <p className="text-xs text-white/40 uppercase tracking-widest mb-4">Per Meal (30 Days)</p>
-                  <p className="text-sm text-white/70 leading-relaxed mb-4">{tiffinDetails[type].menu}</p>
-                  <p className="text-xs text-gold/60 italic">{tiffinDetails[type].notes}</p>
+      {step === 'selection' && (
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
+          {(['Veg', 'Egg', 'Non-Veg'] as const).map((type, idx) => (
+            <motion.div 
+              key={type}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.1 }}
+              className={`glass-card p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] border-2 transition-all flex flex-col items-center text-center group hover:scale-[1.02] bg-gradient-to-br ${tiffinDetails[type].color} ${idx === 2 ? 'col-span-2 md:col-span-1' : ''}`}
+            >
+              <div className="mb-6 md:mb-8 p-4 md:p-6 bg-black/30 rounded-full shadow-inner group-hover:rotate-12 transition-transform">
+                {tiffinDetails[type].icon}
+              </div>
+              <h3 className="text-2xl md:text-4xl font-serif font-bold text-white mb-2">{type} Tiffin</h3>
+              <div className="flex items-center gap-2 mb-4">
+                <div className={`w-3 h-3 rounded-full ${type === 'Veg' ? 'bg-green-500' : type === 'Egg' ? 'bg-yellow-500' : 'bg-red-500'}`} />
+                <span className="text-[10px] md:text-xs uppercase tracking-widest font-bold text-white/80">{tiffinDetails[type].tag}</span>
+              </div>
+              <p className="text-3xl md:text-5xl font-serif font-bold text-gold mb-1">₹{tiffinPricing[type]}/-</p>
+              <p className="text-[10px] md:text-xs text-white/40 uppercase tracking-widest mb-6">Per Meal (30 Days)</p>
+              
+              <div className="hidden md:block space-y-4 mb-8 text-left w-full bg-black/20 p-6 rounded-2xl border border-white/5">
+                <div className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-gold shrink-0 mt-0.5" />
+                  <p className="text-sm text-white/80 leading-relaxed">{tiffinDetails[type].menu}</p>
                 </div>
+              </div>
+
+              <button 
+                onClick={() => handleCardBookNow(type)}
+                className="w-full py-4 md:py-5 gold-bg text-black font-bold rounded-xl md:rounded-2xl text-lg md:text-xl hover:shadow-[0_0_30px_rgba(212,175,55,0.6)] transition-all flex items-center justify-center gap-2"
+              >
+                Book Now <ShoppingCart className="w-5 h-5 md:w-6 md:h-6" />
               </button>
-            ))}
+            </motion.div>
+          ))}
+        </div>
+      )}
+
+      {step === 'booking' && (
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="space-y-8 max-w-4xl mx-auto"
+        >
+          {/* AI Summary */}
+          <div className="glass-card p-6 rounded-2xl border-gold/20 bg-gold/5 italic text-center">
+            {isAiLoading ? (
+              <div className="flex items-center justify-center gap-2 text-gold/60">
+                <Sparkles className="w-5 h-5 animate-spin" /> Generating AI Summary...
+              </div>
+            ) : (
+              <p className="text-gold-light text-lg">"{aiSummary}"</p>
+            )}
           </div>
 
-          {/* Location & Meal Selection */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="glass-card p-8 rounded-3xl border-white/10">
-              <h3 className="text-xl font-serif font-bold mb-6 flex items-center gap-2">
-                <MapPin className="w-5 h-5 text-gold" /> Select Location
+          <div className="space-y-8">
+            <div className="glass-card p-8 rounded-3xl border-white/10 bg-black/20">
+              <h3 className="text-2xl font-serif font-bold mb-6 flex items-center gap-3">
+                <MapPin className="w-6 h-6 text-gold" /> Select Area
               </h3>
               <div className="flex flex-wrap gap-3">
                 {['Delhi', 'Faridabad', 'Noida'].map((loc) => (
                   <button 
                     key={loc}
                     onClick={() => setSelectedLocation(loc)}
-                    className={`px-6 py-3 rounded-full border transition-all ${selectedLocation === loc ? 'gold-bg text-black font-bold border-gold' : 'border-white/10 text-white/60 hover:border-gold/30'}`}
+                    className={`flex-1 min-w-[120px] px-6 py-4 rounded-xl border-2 transition-all text-center font-bold text-lg ${selectedLocation === loc ? 'border-gold bg-gold/10 text-gold' : 'border-white/10 text-white/60 hover:border-gold/30'}`}
                   >
                     {loc}
                   </button>
@@ -942,89 +1064,183 @@ function TiffinService({
               </div>
             </div>
 
-            <div className="glass-card p-8 rounded-3xl border-white/10">
-              <h3 className="text-xl font-serif font-bold mb-6 flex items-center gap-2">
-                <Calendar className="w-5 h-5 text-gold" /> Select Meals
+            <div className="glass-card p-8 rounded-3xl border-white/10 bg-black/20">
+              <h3 className="text-2xl font-serif font-bold mb-6 flex items-center gap-3">
+                <Calendar className="w-6 h-6 text-gold" /> Select Time
               </h3>
               <div className="flex flex-wrap gap-3">
                 {['Breakfast', 'Lunch', 'Dinner'].map((meal) => (
                   <button 
                     key={meal}
                     onClick={() => toggleMeal(meal)}
-                    className={`px-6 py-3 rounded-full border transition-all ${selectedMeals.includes(meal) ? 'gold-bg text-black font-bold border-gold' : 'border-white/10 text-white/60 hover:border-gold/30'}`}
+                    className={`flex-1 min-w-[120px] px-6 py-4 rounded-xl border-2 transition-all text-center font-bold text-lg ${selectedMeals.includes(meal) ? 'border-gold bg-gold/10 text-gold' : 'border-white/10 text-white/60 hover:border-gold/30'}`}
                   >
                     {meal}
                   </button>
                 ))}
               </div>
-              <p className="mt-4 text-xs text-white/40 italic">Select 2 meals for 6% discount, 3 meals for 10% discount.</p>
+              <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 text-[10px] uppercase tracking-widest font-bold text-white/40 text-center">
+                <div className="p-3 border border-white/5 rounded-xl bg-white/5">
+                  <p className="text-gold mb-1">Breakfast</p>
+                  <p>07:00am - 10:00am</p>
+                </div>
+                <div className="p-3 border border-white/5 rounded-xl bg-white/5">
+                  <p className="text-gold mb-1">Lunch</p>
+                  <p>12:00pm - 03:00pm</p>
+                </div>
+                <div className="p-3 border border-white/5 rounded-xl bg-white/5">
+                  <p className="text-gold mb-1">Dinner</p>
+                  <p>05:30pm - 10:00pm</p>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Order Summary */}
-          <div className="glass-card p-8 rounded-3xl border-gold/20 bg-gold/5">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-              <div>
-                <h3 className="text-2xl font-serif font-bold mb-2">Order Summary</h3>
-                <p className="text-white/60">{tiffinType} Tiffin | {selectedMeals.join(', ')} | {selectedLocation}</p>
+          {/* Delivery Note */}
+          <div className="bg-red-500/10 border border-red-500/20 p-6 rounded-2xl text-sm text-red-200/80 leading-relaxed">
+            <p className="font-bold mb-2 flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4" /> Important Note:
+            </p>
+            <p>1) During weekends/Festival delivery will might possibly Late breakfast delivery and Early Dinner. All notice and updates will be managed in whatsapp.</p>
+          </div>
+
+          <div className="glass-card p-8 rounded-3xl border-gold/30 bg-gold/10 shadow-2xl">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+              <div className="text-center md:text-left">
+                <h3 className="text-3xl font-serif font-bold mb-3">Order Summary</h3>
+                <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 text-white/70">
+                  <span className="px-4 py-1.5 bg-gold/20 rounded-full text-gold text-sm font-bold border border-gold/30">{tiffinType}</span>
+                  <span className="bg-white/5 px-4 py-1.5 rounded-full text-sm font-medium border border-white/10">{selectedMeals.join(' + ')}</span>
+                  <span className="bg-white/5 px-4 py-1.5 rounded-full text-sm font-medium border border-white/10">{selectedLocation}</span>
+                </div>
               </div>
-              <div className="text-right">
-                <div className="text-white/40 line-through text-sm">₹{tiffinTotal.subtotal}</div>
-                <div className="text-green-500 text-sm font-bold mb-1">Discount: -₹{tiffinTotal.discount.toFixed(0)}</div>
-                <div className="text-4xl font-serif font-bold text-gold">₹{tiffinTotal.total.toFixed(0)}</div>
-                <p className="text-xs text-white/40 uppercase tracking-widest">Total for 30 Days</p>
+              <div className="text-center md:text-right">
+                <div className="text-white/40 line-through text-lg">₹{tiffinTotal.subtotal}</div>
+                <div className="text-green-500 text-xl font-bold mb-1">Discount: -₹{tiffinTotal.discount.toFixed(0)}</div>
+                <div className="text-6xl font-serif font-bold text-gold drop-shadow-[0_0_15px_rgba(212,175,55,0.3)]">₹{tiffinTotal.total.toFixed(0)}</div>
               </div>
             </div>
             <button 
-              onClick={onBook}
-              className="w-full mt-8 py-5 gold-bg text-black font-bold rounded-xl text-xl hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-all flex items-center justify-center gap-3"
+              onClick={() => setStep('form')}
+              className="w-full mt-10 py-7 gold-bg text-black font-bold rounded-2xl text-2xl md:text-3xl hover:shadow-[0_0_50px_rgba(212,175,55,0.6)] transition-all flex items-center justify-center gap-4 group"
             >
-              Book Now <ShoppingCart className="w-6 h-6" />
+              Continue to Details <ChevronRight className="w-8 h-8 group-hover:translate-x-2 transition-transform" />
             </button>
           </div>
-        </div>
-      ) : (
+        </motion.div>
+      )}
+
+      {step === 'form' && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="glass-card p-8 md:p-12 rounded-[3rem] border-gold/30 max-w-2xl mx-auto bg-black/40"
+        >
+          <h2 className="text-4xl font-serif font-bold mb-8 text-center">Delivery <span className="gold-gradient">Details</span></h2>
+          <form onSubmit={handleBookingFormSubmit} className="space-y-6">
+            <div className="space-y-2">
+              <label className="text-xs text-white/40 uppercase tracking-widest ml-1">Full Name</label>
+              <input 
+                required 
+                type="text" 
+                value={bookingFormData.name}
+                onChange={(e) => setBookingFormData({...bookingFormData, name: e.target.value})}
+                className="w-full bg-white/5 border border-white/10 rounded-xl p-4 focus:outline-none focus:border-gold transition-all" 
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs text-white/40 uppercase tracking-widest ml-1">Phone Number</label>
+              <input 
+                required 
+                type="tel" 
+                value={bookingFormData.phone}
+                onChange={(e) => setBookingFormData({...bookingFormData, phone: e.target.value})}
+                className="w-full bg-white/5 border border-white/10 rounded-xl p-4 focus:outline-none focus:border-gold transition-all" 
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs text-white/40 uppercase tracking-widest ml-1">Full Address</label>
+              <textarea 
+                required 
+                value={bookingFormData.address}
+                onChange={(e) => setBookingFormData({...bookingFormData, address: e.target.value})}
+                className="w-full bg-white/5 border border-white/10 rounded-xl p-4 focus:outline-none focus:border-gold transition-all min-h-[100px]" 
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs text-white/40 uppercase tracking-widest ml-1">Special Instructions (Optional)</label>
+              <input 
+                type="text" 
+                value={bookingFormData.notes}
+                onChange={(e) => setBookingFormData({...bookingFormData, notes: e.target.value})}
+                className="w-full bg-white/5 border border-white/10 rounded-xl p-4 focus:outline-none focus:border-gold transition-all" 
+              />
+            </div>
+            <button type="submit" className="w-full py-6 gold-bg text-black font-bold rounded-xl text-xl hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-all flex items-center justify-center gap-3">
+              Proceed to Payment <ChevronRight className="w-6 h-6" />
+            </button>
+          </form>
+        </motion.div>
+      )}
+
+      {step === 'payment' && (
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="glass-card p-8 md:p-12 rounded-[2rem] border-gold/30 text-center max-w-2xl mx-auto"
+          className="glass-card p-8 md:p-12 rounded-[3rem] border-gold/30 text-center max-w-3xl mx-auto bg-black/40"
         >
-          <h2 className="text-3xl font-serif font-bold mb-6">Complete Your <span className="gold-gradient">Payment</span></h2>
-          <p className="text-white/60 mb-8">Scan the QR code below to pay ₹{tiffinTotal.total.toFixed(0)} via any UPI app.</p>
+          <h2 className="text-4xl font-serif font-bold mb-6">Secure <span className="gold-gradient">Payment</span></h2>
+          <p className="text-white/60 mb-10 text-lg">Scan the QR code below or choose a payment method to pay ₹{tiffinTotal.total.toFixed(0)}</p>
           
-          <div className="bg-white p-6 rounded-2xl inline-block mb-8 shadow-2xl">
+          <div className="bg-white p-8 rounded-[2rem] inline-block mb-10 shadow-[0_0_50px_rgba(255,255,255,0.1)]">
             <QRCodeSVG 
               value={`upi://pay?pa=9650254164@kotak&pn=Mithila%20Catering&am=${tiffinTotal.total}&cu=INR`} 
-              size={200}
+              size={240}
               level="H"
             />
           </div>
           
-          <p className="text-gold font-bold text-xl mb-8 tracking-widest">9650254164@kotak</p>
+          <div className="mb-10">
+            <p className="text-white/40 text-xs uppercase tracking-[0.3em] mb-2">UPI ID</p>
+            <p className="text-gold font-bold text-2xl tracking-widest">9650254164@kotak</p>
+          </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
             <button 
               onClick={onUpiPayment}
-              className="py-4 border border-gold text-gold font-bold rounded-xl hover:bg-gold/10 transition-all flex items-center justify-center gap-2"
+              className="py-5 bg-white/5 border-2 border-gold/30 text-gold font-bold rounded-2xl hover:bg-gold/10 transition-all flex items-center justify-center gap-3 text-lg"
             >
-              <QrCode className="w-5 h-5" /> Pay with UPI App
+              <QrCode className="w-6 h-6" /> Pay via GPay / PhonePe
+            </button>
+            <button 
+              onClick={onUpiPayment}
+              className="py-5 bg-white/5 border-2 border-blue-500/30 text-blue-400 font-bold rounded-2xl hover:bg-blue-500/10 transition-all flex items-center justify-center gap-3 text-lg"
+            >
+              <CreditCard className="w-6 h-6" /> Pay via Paytm / Card
+            </button>
+            <button 
+              onClick={onUpiPayment}
+              className="py-5 bg-white/5 border-2 border-purple-500/30 text-purple-400 font-bold rounded-2xl hover:bg-purple-500/10 transition-all flex items-center justify-center gap-3 text-lg"
+            >
+              <Wallet className="w-6 h-6" /> Other UPI Apps
             </button>
             <button 
               onClick={onWhatsAppShare}
-              className="py-4 bg-[#25D366] text-white font-bold rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2"
+              className="py-5 bg-[#25D366] text-white font-bold rounded-2xl hover:opacity-90 transition-all flex items-center justify-center gap-3 text-lg shadow-lg shadow-[#25D366]/20"
             >
-              <MessageSquare className="w-5 h-5" /> Share Screenshot
+              <MessageSquare className="w-6 h-6" /> Share Screenshot
             </button>
           </div>
           
-          <button 
-            onClick={() => setShowPayment(false)}
-            className="mt-8 text-white/40 hover:text-white transition-colors"
-          >
-            Go Back
-          </button>
+          <div className="flex items-center justify-center gap-8 opacity-40 grayscale">
+            <img src="https://i.ibb.co/99X8wXW/gpay.png" alt="GPay" className="h-8" />
+            <img src="https://i.ibb.co/99X8wXW/phonepe.png" alt="PhonePe" className="h-8" />
+            <img src="https://i.ibb.co/99X8wXW/paytm.png" alt="Paytm" className="h-8" />
+            <img src="https://i.ibb.co/99X8wXW/upi.png" alt="UPI" className="h-8" />
+          </div>
         </motion.div>
       )}
     </div>
   );
 }
+
