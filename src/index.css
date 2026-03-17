@@ -7,29 +7,39 @@
   --color-gold-light: #FDF5E6;
   --color-gold: #D4AF37;
   --color-gold-dark: #996515;
-  --color-dark-bg: #8B6508; /* Deep Dark Gold */
+  --color-dark-bg: #2d0a1f; /* Dark Magenta Background */
   --color-ink: #ffffff;
 }
 
 @layer base {
   body {
     @apply text-ink font-sans relative min-h-screen;
-    background: radial-gradient(circle at center, #B8860B 0%, #8B6508 100%);
+    background-color: #2d0a1f;
   }
   body::before {
     content: "";
-    @apply absolute inset-0 z-[-1] opacity-5 pointer-events-none;
-    background-image: url('https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&q=80&w=2000');
+    @apply absolute inset-0 z-[-1] opacity-20 pointer-events-none;
+    background-image: url('https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&q=80&w=2000');
     background-size: cover;
     background-attachment: fixed;
+    background-position: center;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-serif text-ink;
   }
 }
 
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.animate-blink {
+  animation: blink 1s infinite;
+}
+
 .gold-gradient {
-  background: linear-gradient(135deg, #996515 0%, #D4AF37 50%, #7d5210 100%);
+  background: linear-gradient(135deg, #D4AF37 0%, #FDF5E6 50%, #B8860B 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
