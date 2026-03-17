@@ -15,11 +15,11 @@
 @layer base {
   body {
     @apply text-ink font-sans relative min-h-screen;
-    animation: bg-cycle 20s infinite alternate;
+    animation: bg-cycle 30s linear infinite;
   }
   body::before {
     content: "";
-    @apply absolute inset-0 z-[-1] opacity-20 pointer-events-none;
+    @apply absolute inset-0 z-[-1] opacity-10 pointer-events-none;
     background-image: url('https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&q=80&w=2000');
     background-size: cover;
     background-attachment: fixed;
@@ -32,11 +32,12 @@
 
 @keyframes bg-cycle {
   0% { background-color: #1e0b36; } /* Violet */
-  20% { background-color: #2e0854; } /* Dark Purple */
-  40% { background-color: #4a0404; } /* Deep Red */
-  60% { background-color: #54082e; } /* Magenta */
-  80% { background-color: #085454; } /* Cyan */
-  100% { background-color: #082e54; } /* Blue */
+  16% { background-color: #2e0854; } /* Dark Purple */
+  33% { background-color: #4a0404; } /* Deep Red */
+  50% { background-color: #54082e; } /* Magenta */
+  66% { background-color: #085454; } /* Cyan */
+  83% { background-color: #082e54; } /* Blue */
+  100% { background-color: #1e0b36; } /* Back to Violet */
 }
 
 @keyframes blink {
