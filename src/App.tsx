@@ -147,6 +147,9 @@ const tiffinPricing = {
 export default function App() {
   const [currentView, setCurrentView] = useState<'main' | 'tiffin'>('main');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showCityPopup, setShowCityPopup] = useState(true);
+  const [userCity, setUserCity] = useState("");
   
   // AI Planner State
   const [aiInput, setAiInput] = useState("");
@@ -260,6 +263,49 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-dark-bg selection:bg-gold selection:text-black">
+      {/* City Selection Popup */}
+      <AnimatePresence>
+        {showCityPopup && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-4"
+          >
+            <motion.div 
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              className="glass-card p-8 md:p-12 rounded-[2.5rem] max-w-md w-full text-center border-gold/30 shadow-[0_0_50px_rgba(212,175,55,0.2)]"
+            >
+              <div className="w-20 h-20 gold-bg rounded-full flex items-center justify-center mx-auto mb-8 shadow-lg">
+                <MapPin className="w-10 h-10 text-black" />
+              </div>
+              <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4 gold-gradient">Welcome to Mithila</h2>
+              <p className="text-white/60 mb-8 text-lg">Please select your city to see services available in your area.</p>
+              
+              <div className="space-y-4">
+                <input 
+                  type="text" 
+                  placeholder="Enter your city (e.g. Delhi, Noida)" 
+                  value={userCity}
+                  onChange={(e) => setUserCity(e.target.value)}
+                  className="w-full bg-white/5 border border-gold/20 rounded-2xl p-5 text-white placeholder:text-white/20 focus:outline-none focus:border-gold transition-all text-center text-xl"
+                />
+                <button 
+                  onClick={() => userCity.trim() && setShowCityPopup(false)}
+                  disabled={!userCity.trim()}
+                  className="w-full py-5 gold-bg text-black font-bold rounded-2xl text-xl hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Confirm City
+                </button>
+              </div>
+              
+              <p className="mt-6 text-white/30 text-xs uppercase tracking-widest">Serving Pan India Since 2021</p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Floating WhatsApp Button */}
       <a 
         href="https://wa.link/a8re98" 
@@ -273,7 +319,7 @@ export default function App() {
       </a>
 
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 glass-card border-b border-gold/10 px-4 md:px-6 py-4 flex justify-between items-center">
+      <nav className="fixed top-0 w-full z-50 glass-card border-b border-gold/10 px-2 md:px-6 py-4 flex justify-between items-center">
         <div className="flex items-center gap-3 md:gap-4">
           <img 
             src="https://i.ibb.co/CKgjw4rx/file-000000003bec71faa9b37e16b055cb49.png" 
@@ -306,27 +352,92 @@ export default function App() {
           </button>
         </div>
 
-        {/* Mobile Controls - Adjusted to show links directly or in a compact way */}
-        <div className="flex md:hidden items-center gap-2 text-[10px] uppercase tracking-tighter font-bold text-white/70 overflow-x-auto no-scrollbar max-w-[60%]">
-          <a href="#home" onClick={() => setCurrentView('main')} className="px-2 py-1 hover:text-gold whitespace-nowrap">Home</a>
-          <a href="#services" onClick={() => setCurrentView('main')} className="px-2 py-1 hover:text-gold whitespace-nowrap">Services</a>
-          <a href="#ai-planner" onClick={() => setCurrentView('main')} className="px-2 py-1 hover:text-gold whitespace-nowrap">AI Planner</a>
-          <a href="#enquiry" onClick={() => setCurrentView('main')} className="px-2 py-1 hover:text-gold whitespace-nowrap">Enquiry</a>
-          <button onClick={() => setCurrentView('tiffin')} className="px-2 py-1 hover:text-gold whitespace-nowrap flex items-center gap-1">
-            <ChefHat className="w-3 h-3" /> Tiffin
-          </button>
-        </div>
+        {/* Mobile Menu Button */}
+        <button 
+          onClick={() => setIsMobileMenuOpen(true)}
+          className="md:hidden p-2 text-gold hover:bg-gold/10 rounded-lg transition-colors"
+        >
+          <Menu className="w-6 h-6" />
+        </button>
+
+        {/* Mobile Menu Overlay */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <>
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60]"
+              />
+              <motion.div 
+                initial={{ x: '100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '100%' }}
+                transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                className="fixed top-0 right-0 h-full w-full bg-gray-100 z-[70] shadow-2xl p-8 flex flex-col"
+              >
+                <div className="flex justify-between items-center mb-12">
+                  <img 
+                    src="https://i.ibb.co/CKgjw4rx/file-000000003bec71faa9b37e16b055cb49.png" 
+                    alt="Mithila Logo" 
+                    className="h-12 w-12 object-contain rounded-full border border-gold/30"
+                    referrerPolicy="no-referrer"
+                  />
+                  <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 text-gray-800 hover:bg-gray-200 rounded-full transition-colors">
+                    <X className="w-6 h-6" />
+                  </button>
+                </div>
+
+                <div className="flex flex-col gap-6 text-lg font-serif font-bold text-gray-800">
+                  <a href="#home" onClick={() => { setCurrentView('main'); setIsMobileMenuOpen(false); }} className="hover:text-gold transition-colors flex items-center gap-3">
+                    Home
+                  </a>
+                  <a href="#services" onClick={() => { setCurrentView('main'); setIsMobileMenuOpen(false); }} className="hover:text-gold transition-colors flex items-center gap-3">
+                    Services
+                  </a>
+                  <a href="#ai-planner" onClick={() => { setCurrentView('main'); setIsMobileMenuOpen(false); }} className="hover:text-gold transition-colors flex items-center gap-3">
+                    AI Planner
+                  </a>
+                  <button 
+                    onClick={() => { setCurrentView('tiffin'); setIsMobileMenuOpen(false); }}
+                    className="hover:text-gold transition-colors flex items-center gap-3 text-left"
+                  >
+                    Tiffin Service
+                  </button>
+                  <a href="#enquiry" onClick={() => { setCurrentView('main'); setIsMobileMenuOpen(false); }} className="hover:text-gold transition-colors flex items-center gap-3">
+                    Enquiry
+                  </a>
+                  <a href="#gallery" onClick={() => { setCurrentView('main'); setIsMobileMenuOpen(false); }} className="hover:text-gold transition-colors flex items-center gap-3">
+                    Event Gallery
+                  </a>
+                </div>
+
+                <div className="mt-auto pt-8 border-t border-gray-200">
+                  <p className="text-gray-500 text-xs uppercase tracking-widest mb-4">Contact Us</p>
+                  <div className="flex flex-col gap-3 text-gray-700 text-sm">
+                    <div className="flex items-center gap-2">
+                      <Phone className="w-4 h-4 text-gold" />
+                      <span>+91 9650254164</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Mail className="w-4 h-4 text-gold" />
+                      <span>mithilacateringservices@gmail.com</span>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
       </nav>
 
       {currentView === 'main' ? (
         <>
           {/* Hero Section */}
           <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-20">
-            <div className="absolute inset-0 z-0">
-              <div className="absolute inset-0 bg-gradient-to-b from-dark-bg/50 via-dark-bg to-dark-bg" />
-            </div>
-            
-            <div className="relative z-10 px-4 md:px-6 max-w-7xl mx-auto w-full text-center">
+            <div className="relative z-10 px-2 md:px-6 max-w-7xl mx-auto w-full text-center">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -363,7 +474,7 @@ export default function App() {
           </section>
 
       {/* Stats Section */}
-      <section className="py-20 px-6 border-y border-gold/10 bg-white/[0.01]">
+      <section className="py-20 px-2 md:px-6 border-y border-gold/10 bg-white/[0.01]">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-serif font-bold gold-gradient uppercase tracking-widest">We Served</h2>
@@ -417,7 +528,7 @@ export default function App() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-24 px-6 max-w-7xl mx-auto">
+      <section id="services" className="py-24 px-2 md:px-6 max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-4 mb-6">
             <img 
@@ -434,7 +545,7 @@ export default function App() {
           </p>
         </div>
 
-        <div className="grid grid-cols-3 gap-3 md:gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-8">
           {services.map((service, idx) => (
             <motion.div
               key={idx}
@@ -466,8 +577,48 @@ export default function App() {
         </div>
       </section>
 
+      {/* Event Gallery Section */}
+      <section id="gallery" className="py-24 px-2 md:px-6 max-w-7xl mx-auto">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-6xl font-serif font-bold mb-4">Event <span className="gold-gradient">Gallery</span></h2>
+          <div className="w-24 h-1 gold-bg mx-auto rounded-full" />
+          <p className="mt-6 text-white/70 max-w-2xl mx-auto text-lg">
+            A glimpse into the beautiful moments we've helped create. From vibrant weddings to professional corporate setups.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
+          {[
+            "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1505236858219-8359eb29e329?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=800",
+            "https://images.unsplash.com/photo-1516997121675-4c2d1684aa3e?auto=format&fit=crop&q=80&w=800"
+          ].map((img, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ delay: idx * 0.05 }}
+              viewport={{ once: true }}
+              className="aspect-square overflow-hidden rounded-lg md:rounded-2xl group"
+            >
+              <img 
+                src={img} 
+                alt={`Gallery ${idx}`} 
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                referrerPolicy="no-referrer"
+              />
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
       {/* AI Event Planner Section */}
-      <section id="ai-planner" className="py-24 px-6 bg-white/[0.02]">
+      <section id="ai-planner" className="py-24 px-2 md:px-6 bg-white/[0.02]">
         <div className="max-w-4xl mx-auto">
           <div className="glass-card p-8 md:p-12 rounded-[2rem] border-gold/20 shadow-2xl relative overflow-hidden">
             <div className="absolute top-0 right-0 p-8 opacity-10">
@@ -582,7 +733,7 @@ export default function App() {
       </section>
 
       {/* Enquiry Form Section */}
-      <section id="enquiry" className="py-24 px-6 max-w-7xl mx-auto">
+      <section id="enquiry" className="py-24 px-2 md:px-6 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           <div>
             <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6">Let's Create <br /><span className="gold-gradient">Magic Together</span></h2>
@@ -962,7 +1113,7 @@ function TiffinService({
   };
 
   return (
-    <div className="pt-32 pb-20 px-4 md:px-6 max-w-6xl mx-auto min-h-screen">
+    <div className="pt-32 pb-20 px-2 md:px-6 max-w-6xl mx-auto min-h-screen">
       <div className="fixed inset-0 bg-[#1a3a1a] -z-10" /> {/* Dark Grass Green Background */}
       
       <motion.button 

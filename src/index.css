@@ -7,7 +7,7 @@
   --color-gold-light: #FDF5E6;
   --color-gold: #D4AF37;
   --color-gold-dark: #996515;
-  --color-dark-bg: #2d0a1f; /* Dark Magenta Background */
+  --color-dark-bg: #1e0b36; /* Premium Violet Background */
   --color-grass-green: #0a2d14; /* Dark Grass Green */
   --color-ink: #ffffff;
 }
@@ -15,7 +15,7 @@
 @layer base {
   body {
     @apply text-ink font-sans relative min-h-screen;
-    background-color: #2d0a1f;
+    animation: bg-cycle 20s infinite alternate;
   }
   body::before {
     content: "";
@@ -28,6 +28,15 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-serif text-ink;
   }
+}
+
+@keyframes bg-cycle {
+  0% { background-color: #1e0b36; } /* Violet */
+  20% { background-color: #2e0854; } /* Dark Purple */
+  40% { background-color: #4a0404; } /* Deep Red */
+  60% { background-color: #54082e; } /* Magenta */
+  80% { background-color: #085454; } /* Cyan */
+  100% { background-color: #082e54; } /* Blue */
 }
 
 @keyframes blink {
