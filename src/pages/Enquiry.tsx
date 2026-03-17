@@ -25,7 +25,7 @@ export default function Enquiry() {
   };
 
   return (
-    <div className="pt-32 pb-20 px-2 md:px-6 max-w-4xl mx-auto">
+    <div id="enquiry" className="pt-32 pb-20 px-2 md:px-6 max-w-4xl mx-auto">
       <div className="text-center mb-16">
         <h1 className="text-5xl md:text-8xl font-serif font-bold mb-6">Quick <span className="gold-gradient italic">Enquiry</span></h1>
         <p className="text-white/50 text-xl">Tell us about your event and we'll get back to you with a custom quote.</p>

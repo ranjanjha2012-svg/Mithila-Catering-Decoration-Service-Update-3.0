@@ -4,7 +4,7 @@ import { Phone, Mail, MapPin, Clock, Instagram, Facebook, Youtube, ChevronRight 
 
 export default function Contact() {
   return (
-    <div className="pt-32 pb-20 px-2 md:px-6 max-w-7xl mx-auto">
+    <div id="contact" className="pt-32 pb-20 px-2 md:px-6 max-w-7xl mx-auto">
       <div className="text-center mb-20">
         <h1 className="text-5xl md:text-8xl font-serif font-bold mb-6">Contact <span className="gold-gradient italic">Us</span></h1>
         <p className="text-white/50 text-xl max-w-2xl mx-auto">We're here to help you plan your next big event. Reach out to us via any of the channels below.</p>

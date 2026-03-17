@@ -44,7 +44,7 @@ export default function Home() {
   };
 
   return (
-    <div className="pt-20">
+    <div id="home" className="pt-20">
       {/* Hero Section */}
       <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-20">
         <div className="relative z-10 px-2 md:px-6 max-w-7xl mx-auto w-full text-center">

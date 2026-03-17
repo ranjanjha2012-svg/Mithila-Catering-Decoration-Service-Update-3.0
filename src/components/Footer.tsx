@@ -37,12 +37,12 @@ export default function Footer() {
         <div>
           <h4 className="text-gray-900 font-bold uppercase tracking-widest text-sm mb-8">Quick Links</h4>
           <ul className="space-y-4 text-gray-600">
-            <li><a href="/" className="hover:text-gold transition-colors">Home</a></li>
-            <li><a href="/services" className="hover:text-gold transition-colors">Services</a></li>
-            <li><a href="/gallery" className="hover:text-gold transition-colors">Gallery</a></li>
-            <li><a href="/enquiry" className="hover:text-gold transition-colors">Enquiry</a></li>
-            <li><a href="/contact" className="hover:text-gold transition-colors">Contact</a></li>
-            <li><a href="/tiffin" className="hover:text-gold transition-colors">Tiffin Service</a></li>
+            <li><a href="#home" className="hover:text-gold transition-colors">Home</a></li>
+            <li><a href="#services" className="hover:text-gold transition-colors">Services</a></li>
+            <li><a href="#gallery" className="hover:text-gold transition-colors">Gallery</a></li>
+            <li><a href="#enquiry" className="hover:text-gold transition-colors">Enquiry</a></li>
+            <li><a href="#contact" className="hover:text-gold transition-colors">Contact</a></li>
+            <li><a href="#tiffin" className="hover:text-gold transition-colors">Tiffin Service</a></li>
           </ul>
         </div>
 

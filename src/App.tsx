@@ -4,10 +4,10 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { MapPin, Check } from 'lucide-react';
-import Layout from './components/Layout';
+import Header from './components/Header';
+import Footer from './components/Footer';
 import Home from './pages/Home';
 import Services from './pages/Services';
 import Gallery from './pages/Gallery';
@@ -35,7 +35,9 @@ function App() {
   };
 
   return (
-    <Router>
+    <div className="min-h-screen bg-[#0a0a0a] text-white selection:bg-gold selection:text-black">
+      <Header />
+      
       <AnimatePresence>
         {showCityPopup && (
           <motion.div
@@ -78,17 +80,17 @@ function App() {
         )}
       </AnimatePresence>
 
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/gallery" element={<Gallery />} />
-          <Route path="/enquiry" element={<Enquiry />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/tiffin" element={<Tiffin />} />
-        </Routes>
-      </Layout>
-    </Router>
+      <main>
+        <Home />
+        <Services />
+        <Gallery />
+        <Enquiry />
+        <Contact />
+        <Tiffin />
+      </main>
+
+      <Footer />
+    </div>
   );
 }
 

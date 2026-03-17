@@ -5,7 +5,7 @@ import { services } from '../constants/data';
 
 export default function Services() {
   return (
-    <div className="pt-32 pb-20 px-2 md:px-6 max-w-7xl mx-auto">
+    <div id="services" className="pt-32 pb-20 px-2 md:px-6 max-w-7xl mx-auto">
       <div className="text-center mb-20">
         <h1 className="text-5xl md:text-8xl font-serif font-bold mb-6">Our <span className="gold-gradient italic">Services</span></h1>
         <p className="text-white/50 text-xl max-w-2xl mx-auto">From intimate gatherings to grand celebrations, we provide premium catering and decoration services tailored to your needs.</p>

@@ -15,7 +15,7 @@ const galleryImages = [
 
 export default function Gallery() {
   return (
-    <div className="pt-32 pb-20 px-2 md:px-6 max-w-7xl mx-auto">
+    <div id="gallery" className="pt-32 pb-20 px-2 md:px-6 max-w-7xl mx-auto">
       <div className="text-center mb-20">
         <h1 className="text-5xl md:text-8xl font-serif font-bold mb-6">Event <span className="gold-gradient italic">Gallery</span></h1>
         <p className="text-white/50 text-xl max-w-2xl mx-auto">A glimpse into the magical moments we've created for our clients across India.</p>

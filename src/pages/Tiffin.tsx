@@ -141,7 +141,7 @@ export default function Tiffin() {
   };
 
   return (
-    <div className="pt-32 pb-20 px-2 md:px-6 max-w-6xl mx-auto min-h-screen">
+    <div id="tiffin" className="pt-32 pb-20 px-2 md:px-6 max-w-6xl mx-auto min-h-screen">
       <div className="fixed inset-0 bg-[#1a3a1a] -z-10" /> {/* Dark Grass Green Background */}
       
       <motion.button 
