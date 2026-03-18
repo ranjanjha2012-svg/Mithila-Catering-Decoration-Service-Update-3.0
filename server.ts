@@ -17,7 +17,6 @@ async function startServer() {
       server: { middlewareMode: true },
       appType: "custom", // Use custom to handle HTML serving
     });
-    app.use(vite.middlewares);
 
     const pages = ["services", "gallery", "enquiry", "contact", "tiffin"];
 
@@ -40,6 +39,9 @@ async function startServer() {
         next(e);
       }
     });
+
+    // Vite middleware for development (after custom routes)
+    app.use(vite.middlewares);
   } else {
     const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
