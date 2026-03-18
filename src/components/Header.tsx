@@ -12,7 +12,7 @@ export default function Header() {
   return (
     <nav className="fixed top-0 w-full z-50 bg-white border-b border-gray-200 px-2 md:px-6 py-4 flex justify-between items-center shadow-sm">
       <div className="flex items-center gap-3 md:gap-4">
-        <a href="/index.html" onClick={scrollToTop} className="flex items-center gap-3 md:gap-4">
+        <a href="/" onClick={scrollToTop} className="flex items-center gap-3 md:gap-4">
           <img 
             src="https://i.ibb.co/CKgjw4rx/file-000000003bec71faa9b37e16b055cb49.png" 
             alt="Mithila Logo" 
@@ -28,13 +28,13 @@ export default function Header() {
       
       {/* Desktop Links */}
       <div className="hidden md:flex gap-8 text-sm uppercase tracking-widest font-bold text-gray-600">
-        <a href="/index.html" className="hover:text-gold transition-colors">Home</a>
-        <a href="/services.html" className="hover:text-gold transition-colors">Services</a>
-        <a href="/gallery.html" className="hover:text-gold transition-colors">Gallery</a>
-        <a href="/enquiry.html" className="hover:text-gold transition-colors">Enquiry</a>
-        <a href="/contact.html" className="hover:text-gold transition-colors">Contact</a>
+        <a href="/" className="hover:text-gold transition-colors">Home</a>
+        <a href="/services" className="hover:text-gold transition-colors">Services</a>
+        <a href="/gallery" className="hover:text-gold transition-colors">Gallery</a>
+        <a href="/enquiry" className="hover:text-gold transition-colors">Enquiry</a>
+        <a href="/contact" className="hover:text-gold transition-colors">Contact</a>
         <a 
-          href="/tiffin.html"
+          href="/tiffin"
           className="hover:text-gold transition-colors flex items-center gap-2"
         >
           <ChefHat className="w-4 h-4 text-gold" />
@@ -81,23 +81,23 @@ export default function Header() {
               </div>
 
               <div className="flex flex-col gap-6 text-xl font-serif font-bold text-gray-900">
-                <a href="/index.html" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-gold transition-colors flex items-center gap-3 py-2 border-b border-gray-100">
+                <a href="/" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-gold transition-colors flex items-center gap-3 py-2 border-b border-gray-100">
                   Home
                 </a>
-                <a href="/services.html" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-gold transition-colors flex items-center gap-3 py-2 border-b border-gray-100">
+                <a href="/services" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-gold transition-colors flex items-center gap-3 py-2 border-b border-gray-100">
                   Services
                 </a>
-                <a href="/gallery.html" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-gold transition-colors flex items-center gap-3 py-2 border-b border-gray-100">
+                <a href="/gallery" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-gold transition-colors flex items-center gap-3 py-2 border-b border-gray-100">
                   Gallery
                 </a>
-                <a href="/enquiry.html" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-gold transition-colors flex items-center gap-3 py-2 border-b border-gray-100">
+                <a href="/enquiry" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-gold transition-colors flex items-center gap-3 py-2 border-b border-gray-100">
                   Enquiry
                 </a>
-                <a href="/contact.html" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-gold transition-colors flex items-center gap-3 py-2 border-b border-gray-100">
+                <a href="/contact" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-gold transition-colors flex items-center gap-3 py-2 border-b border-gray-100">
                   Contact
                 </a>
                 <a 
-                  href="/tiffin.html"
+                  href="/tiffin"
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="hover:text-gold transition-colors flex items-center gap-3 text-left py-2 border-b border-gray-100"
                 >
