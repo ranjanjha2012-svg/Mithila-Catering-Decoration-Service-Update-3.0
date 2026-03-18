@@ -70,7 +70,7 @@ export default function Home() {
 
             <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
               <a 
-                href="/enquiry"
+                href="/enquiry.html"
                 className="group relative px-10 py-5 gold-bg text-black font-bold rounded-2xl text-xl overflow-hidden shadow-[0_0_30px_rgba(212,175,55,0.3)] hover:shadow-[0_0_50px_rgba(212,175,55,0.5)] transition-all flex items-center gap-3"
               >
                 <Sparkles className="w-6 h-6 group-hover:rotate-12 transition-transform" />
@@ -78,7 +78,7 @@ export default function Home() {
                 <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
               </a>
               <a 
-                href="/tiffin"
+                href="/tiffin.html"
                 className="px-10 py-5 bg-white/5 border-2 border-gold/30 text-gold font-bold rounded-2xl text-xl hover:bg-gold/10 transition-all backdrop-blur-md"
               >
                 Tiffin Service

@@ -1,29 +1,25 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MapPin, Check } from 'lucide-react';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import Home from './pages/Home';
-import Services from './pages/Services';
-import Gallery from './pages/Gallery';
-import Enquiry from './pages/Enquiry';
-import Contact from './pages/Contact';
-import Tiffin from './pages/Tiffin';
+import Header from './Header';
+import Footer from './Footer';
 
-function App() {
-  const [showCityPopup, setShowCityPopup] = useState(true);
+interface PageLayoutProps {
+  children: React.ReactNode;
+}
+
+export default function PageLayout({ children }: PageLayoutProps) {
+  const [showCityPopup, setShowCityPopup] = useState(false);
   const [userCity, setUserCity] = useState("");
 
   useEffect(() => {
     const savedCity = localStorage.getItem('userCity');
-    if (savedCity) {
+    if (!savedCity) {
+      // Show popup after a short delay if no city is saved
+      const timer = setTimeout(() => setShowCityPopup(true), 1500);
+      return () => clearTimeout(timer);
+    } else {
       setUserCity(savedCity);
-      setShowCityPopup(false);
     }
   }, []);
 
@@ -81,17 +77,10 @@ function App() {
       </AnimatePresence>
 
       <main>
-        <Home />
-        <Services />
-        <Gallery />
-        <Enquiry />
-        <Contact />
-        <Tiffin />
+        {children}
       </main>
 
       <Footer />
     </div>
   );
 }
-
-export default App;
